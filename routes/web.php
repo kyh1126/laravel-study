@@ -38,3 +38,6 @@ Route::post('/login', [App\Http\Controllers\LoginController::class, 'authenticat
 Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
+
+Route::get('/user', [App\Http\Controllers\UserController::class, 'index']);
+Route::post('/user', [App\Http\Controllers\UserController::class, 'store']);
