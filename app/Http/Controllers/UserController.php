@@ -4,39 +4,46 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Contracts\View\Factory as ViewFactory;
+use App\Service\BookReviewService;
+use App\Service\UserService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\View\View;
 
 final class UserController extends Controller
 {
-    public function detail(string $id): View
+    private $userService;
+    private $bookReviewService;
+    // 1
+    public function __construct(
+        UserService       $userService,
+        BookReviewService $bookReviewService
+    )
     {
-        return view('user.detail');
+        $this->userService = $userService;
+        $this->bookReviewService = $bookReviewService;
     }
 
-    public function userDetail(string $id): Response
+    public function index(Request $request): View
     {
-        return new Response(view('user.detail'), Response::HTTP_OK);
-    }
-
-    public function index(Request $request): ViewFactory
-    {
-        // 1
-        $user = User::find($request->get('id'));
-        // 2
         return view('user.index', [
-            'user' => $user,
+            'user' => $this->userService->retrieveUser($request->get('id'))
         ]);
     }
 
-    // 3
     public function store(Request $request): RedirectResponse
     {
-        // 등록 처리 등
-        return new RedirectResponse();
+        $this->userService->activate(
+            $request->get('user_id'),
+            $request->get('user_name')
+        );
+        // 2
+        $this->bookReviewService->addReview(
+            $request->get('user_id'),
+            $request->get('book_id'),
+            $request->get('review')
+        );
+        // 응답 반환 처리
+        return redirect('/users');
     }
 }
