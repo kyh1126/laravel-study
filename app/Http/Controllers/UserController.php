@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Purchase;
+use App\Service\UserPurchaseService;
 
 final class UserController extends Controller
 {
+    protected $service;
+
+    public function __construct(UserPurchaseService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index(string $id)
     {
-        $user = User::find(intval($id));
-        $purchase = Purchase::findAllBy($user->id);
-        // 데이터베이스로부터 얻은 값을 사용한 처리 등
-
-        return view('user.index', ['user' => $user]);
+        $result = $this->service->retrievePurchase(intval($id));
+        return view('user.index', ['user' => $result]);
     }
 }
