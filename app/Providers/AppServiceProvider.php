@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\BlowfishEncrypter;
 use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -14,14 +13,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(
-            'encrypter',
-            function ($app) {
-                $config = $app->make('config')->get('app');
-
-                return new BlowfishEncrypter($this->parseKey($config));
-            }
-        );
+//        $this->app->singleton(
+//            'encrypter',
+//            function ($app) {
+//                $config = $app->make('config')->get('app');
+//
+//                return new BlowfishEncrypter($this->parseKey($config));
+//            }
+//        );
     }
 
     protected function parseKey(array $config)
