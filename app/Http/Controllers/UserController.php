@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRegistPost;
 use App\Service\UserPurchaseService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 final class UserController extends Controller
 {
@@ -22,8 +23,9 @@ final class UserController extends Controller
         return view('user.index', ['user' => $result]);
     }
 
-    public function register(Request $request)
+    public function register(UserRegistPost $request)
     {
+        Log::debug('register request is coming!');
         $name = $request->get('name');
         $age = $request->get('age');
     }
