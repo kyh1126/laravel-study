@@ -25,8 +25,8 @@ Route::get('/register', [App\Http\Controllers\RegisterController::class, 'create
     ->middleware('guest')
     ->name('register');
 
-Route::post('/register', [App\Http\Controllers\RegisterController::class, 'store'])
-    ->middleware('guest');
+//Route::post('/register', [App\Http\Controllers\RegisterController::class, 'store'])
+//    ->middleware('guest');
 
 Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])
     ->middleware('guest')
@@ -43,3 +43,5 @@ Route::get('/user', [App\Http\Controllers\UserController::class, 'index']);
 Route::post('/user', [App\Http\Controllers\UserController::class, 'store']);
 
 Route::get('users', App\Http\Actions\UserIndexAction::class);
+
+Route::post('/register', [App\Http\Controllers\UserController::class, 'register']);

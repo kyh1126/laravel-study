@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Service\UserPurchaseService;
+use Illuminate\Http\Request;
 
 final class UserController extends Controller
 {
@@ -19,5 +20,11 @@ final class UserController extends Controller
     {
         $result = $this->service->retrievePurchase(intval($id));
         return view('user.index', ['user' => $result]);
+    }
+
+    public function register(Request $request)
+    {
+        $name = $request->get('name');
+        $age = $request->get('age');
     }
 }
