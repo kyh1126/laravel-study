@@ -4,42 +4,25 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Service\UserPurchaseService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 final class UserController extends Controller
 {
-    protected $service;
-
-    public function __construct(UserPurchaseService $service)
-    {
-        $this->service = $service;
-    }
-
-    public function index(string $id)
-    {
-        $result = $this->service->retrievePurchase(intval($id));
-        return view('user.index', ['user' => $result]);
-    }
-
     public function register(Request $request)
     {
-        // 모든 입력값을 얻어 $inputs에 저장한다
-        $inputs = $request->all();
-
-        // 밸리데이션 규칙 정의
-        // name 키 값은 필수, age는 정숫값
+        // 다음 규칙을 배열로 지정
+        // name은 필수, 최대 20문자
+        // email은 필수, 메일 주소 규칙을만족하며 최대 255문자
         $rules = [
-            'name' => 'required',
-            'age' => 'integer',
+            'name' => ['required', 'max:20'],
+            'email' => ['required', 'email', 'max:255'],
         ];
 
-        $validator = Validator::make($inputs, $rules);
+        // 1. 밸리데이션 실행
+        // 에러 발생 시 직전 화면으로 리다이렉트
+        $this->validate($request, $rules);
 
-        if ($validator->fails()) {
-            // 값이 에러인 경우의 처리
-        }
-        // 값이 정상인 경우의 처리
+        // 밸리데이션 통과 후 실행할 처리
+        $name = $request->get('name');
     }
 }
