@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRegistPost;
 use App\Service\UserPurchaseService;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 final class UserController extends Controller
 {
@@ -23,10 +23,23 @@ final class UserController extends Controller
         return view('user.index', ['user' => $result]);
     }
 
-    public function register(UserRegistPost $request)
+    public function register(Request $request)
     {
-        Log::debug('register request is coming!');
-        $name = $request->get('name');
-        $age = $request->get('age');
+        // 모든 입력값을 얻어 $inputs에 저장한다
+        $inputs = $request->all();
+
+        // 밸리데이션 규칙 정의
+        // name 키 값은 필수, age는 정숫값
+        $rules = [
+            'name' => 'required',
+            'age' => 'integer',
+        ];
+
+        $validator = Validator::make($inputs, $rules);
+
+        if ($validator->fails()) {
+            // 값이 에러인 경우의 처리
+        }
+        // 값이 정상인 경우의 처리
     }
 }
