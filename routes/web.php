@@ -45,3 +45,5 @@ Route::post('/user', [App\Http\Controllers\UserController::class, 'store']);
 Route::get('users', App\Http\Actions\UserIndexAction::class);
 
 Route::post('/register', [App\Http\Controllers\UserController::class, 'register']);
+
+Route::get('article', App\Http\Controllers\ArticlePayloadAction::class);
