@@ -36,4 +36,9 @@ class Author extends Model
         // MB_CASE_UPPER 모드로 name 칼럼값을 변환한다
         $this->attributes['name'] = mb_convert_case($value, MB_CASE_UPPER, "UTF-8");
     }
+
+    public function books()
+    {
+        return $this->hasMany('\App\Models\Book');
+    }
 }

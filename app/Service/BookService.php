@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Book;
+use App\Models\Book;
 use App\Models\User;
 use App\Purchase;
 
